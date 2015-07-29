@@ -1,3 +1,27 @@
-All about a day
-
-{{ day }}
+<div class="jumbotron">
+  <h1>Today</h1>
+  <p class="input-group">
+    <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="dt" is-open="opened" min-date="minDate" max-date="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
+    <span class="input-group-btn">
+      <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+    </span>
+  </p>
+</div>
+<a href="#day/{{ prevYear }}/{{ prevMonth }}/{{ prevDay }}" class="btn">The day before</a>
+<a href="#day/{{ nextYear }}/{{ nextMonth }}/{{ nextDay }}" class="btn">The day after</a>
+<p>Total posts: {{ totalPosts }}</p>
+<p>Total threads: {{ totalRootPosts }}</p>
+<table>
+  <thead>
+    <tr>
+      <td>High Scores</td>
+      <td>Post Count</td>
+    </tr>
+  </thead>
+  <tbody ng-repeat="shacker in topShackers">
+    <tr>
+      <td>{{ shacker.author }}</td>
+      <td>{{ shacker.postCount }}</td>
+    </tr>
+  </tbody>
+</table>
