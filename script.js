@@ -125,6 +125,10 @@ chattyApp.directive("rangeVisualization", function() {
               d3.select(this).attr("fill", "");
               tooltip.style("visibility", "hidden");
             })
+            .on("click", function(d) {
+              scope.$parent.selectedDay = d.x;
+              scope.$parent.$apply();
+            })
           .transition()
             .delay(function(d, i) { return i * 10; })
             .attr("y", y)
@@ -134,13 +138,26 @@ chattyApp.directive("rangeVisualization", function() {
   }
 });
 
-chattyApp.controller('homeController', function($scope, Range) {
+chattyApp.controller('homeController', function($scope, Range, Day) {
   var today = new Date();
   var lastMonth = new Date(today.valueOf() - 24*60*60*1000 * 30);
   Range.get({startYear: lastMonth.getFullYear(), startMonth: lastMonth.getMonth()+1, startDay: lastMonth.getDate(),
-             endYear: today.getFullYear(), endMonth: today.getMonth()+1, endDay: today.getDate() }, function(data) {
-               $scope.monthPosts = data;
-             });
+    endYear: today.getFullYear(), endMonth: today.getMonth()+1, endDay: today.getDate() }, function(data) {
+      $scope.monthPosts = data;
+    });
+    
+  $scope.$watch('selectedDay', function (newDate) {
+    var date = new Date(newDate);
+    if (date.toString() != "Invalid Date") {
+      loadDay(date.getFullYear(), date.getMonth()+1, date.getDate());
+    }
+  });
+  
+  function loadDay(y, m, d) {
+    Day.get({ year: y, month: m, day: d }, function(data) {
+      $scope.dayData = data;
+    });
+  }
 });
 
 chattyApp.controller('dayController', function($scope, Day, Alerts, $routeParams) {

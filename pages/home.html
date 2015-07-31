@@ -1,3 +1,21 @@
 <h1>Posts for the last 30 days</h1>
 
 <range-visualization val="monthPosts"></range-visualization>
+
+Select a day: <input type="text" value="{{ selectedDay }}"/>
+<p>Total posts: {{ dayData.totalPosts }}</p>
+<p>Total threads: {{ dayData.totalRootPosts }}</p>
+<table>
+  <thead>
+    <tr>
+      <td>High Scores</td>
+      <td>Post Count</td>
+    </tr>
+  </thead>
+  <tbody ng-repeat="shacker in dayData.topAuthors">
+    <tr>
+      <td>{{ shacker.author }}</td>
+      <td>{{ shacker.postCount }}</td>
+    </tr>
+  </tbody>
+</table>
